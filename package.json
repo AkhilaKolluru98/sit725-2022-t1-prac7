@@ -4,7 +4,8 @@
   "description": "Week 6 Practical SIT725",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "mocha --reporter spec"
   },
   "repository": {
     "type": "git",
