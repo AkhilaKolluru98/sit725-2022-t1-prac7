@@ -3,6 +3,8 @@ var express =require("express");
 var app =express()
 require("./dbConnect"); //To connect to Database
 const contactRoutes=require('./routes/contactRoutes');
+let http = require('http').createServer(app);
+let io = require('socket.io')(http);
 
 app.use(express.static(__dirname+'/public'))// To run the index.html as static page
 app.use(express.json());
@@ -28,10 +30,19 @@ app.get("/addTwoNumbers/:firstNumber/:secondNumber",(req,res) => {
       else { res.json({result: result, statusCode: 200}).status(200) } 
 })
 
+io.on('connection', (socket) => {
+    console.log('a user connected', socket.id);
+    socket.on('disconnect', () => {
+      console.log('user disconnected');
+    });
+    setInterval(()=>{
+      socket.emit('number', new Date().toISOString());
+    }, 1000);
+  
+  });
+
 var port = process.env.port || 3000;
 
-app.listen(port,()=> {
+http.listen(port,()=>{
     console.log("App running at http://localhost:"+port)
-    
-    
-})
+  });

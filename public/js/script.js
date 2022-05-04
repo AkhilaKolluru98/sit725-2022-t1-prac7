@@ -87,3 +87,8 @@ $(document).ready(function(){
     
     
 });
+let socket = io();
+
+socket.on('number', (msg) => {
+    $("#pageTitle").html("Offer ends soon: "+ msg)
+})
